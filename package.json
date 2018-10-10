@@ -1,6 +1,6 @@
 {
   "name": "@ts-common/virtual-fs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Virtual File System",
   "main": "index.js",
   "scripts": {
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@ts-common/fs": "0.0.1",
-    "@ts-common/https": "0.0.0",
+    "@ts-common/https": "0.0.1",
     "@ts-common/iterator": "0.0.38"
   }
 }

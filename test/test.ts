@@ -64,4 +64,13 @@ describe("pathDirName", () => {
             "https://raw.githubusercontent.com/ts-common/virtual-fs/f836275cd31ecd1fca9c1de9535aea734d642fa6"
         )
     })
+    it("domain name", () => {
+        const result = vfs.pathDirName(
+            "https://raw.githubusercontent.com"
+        )
+        assert.strictEqual(
+            result,
+            "https://raw.githubusercontent.com"
+        )
+    })
 })
