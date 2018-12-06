@@ -17,9 +17,9 @@ const urlParse = (dir: string): Url | undefined => {
   const split = dir.split(protocolSeparator);
   return split.length === 2
     ? {
-        protocol: split[0],
-        path: split[1]
-      }
+      protocol: split[0],
+      path: split[1]
+    }
     : undefined;
 };
 
@@ -40,7 +40,7 @@ const getByUrl = async (url: string) => {
         if (response.status !== 200) {
           const msg = `StatusCode: "${
             response.status
-          }", ResponseBody: "${body}."`;
+            }", ResponseBody: "${body}."`;
 
           bail(new Error(msg));
         }
@@ -48,7 +48,7 @@ const getByUrl = async (url: string) => {
         return body;
       } catch (fetchError) {
         const message = `Request to ${url} failed with error ${fetchError} on
-            retry number ${retryNr}.`;
+                        retry number ${retryNr}.`;
 
         throw new Error(message);
       }
@@ -67,9 +67,9 @@ export const pathJoin = (dir: string, value: string): string => {
   const url = urlParse(dir);
   return url !== undefined
     ? toUrlString({
-        protocol: url.protocol,
-        path: it.join(it.concat(url.path.split("/"), [value]), "/")
-      })
+      protocol: url.protocol,
+      path: it.join(it.concat(url.path.split("/"), [value]), "/")
+    })
     : path.join(dir, value);
 };
 
