@@ -13,6 +13,17 @@ describe("readFile", () => {
         )
         assert.strictEqual(result, "# virtual-fs\nVirtual File System\n")
     })
+    it("throws if doesn't exist", async () => {
+        let hasThrown = false;
+        try {
+            await vfs.readFile(
+                "https://raw.githubusercontent.com/Azure/this-repo-doesntexist/exist"
+            )
+        } catch {
+            hasThrown = true
+        }
+        assert.isTrue(hasThrown)
+    })
 })
 
 describe("pathResolve", () => {

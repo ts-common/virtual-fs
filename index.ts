@@ -75,7 +75,7 @@ export const pathJoin = (dir: string, value: string): string => {
 export const exists = async (dir: string): Promise<boolean> => {
   if (urlParse(dir) !== undefined) {
     try {
-      return retry(
+      return await retry(
         async (): Promise<boolean> => {
           const { status } = await fetch(dir)
 
