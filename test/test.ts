@@ -13,6 +13,17 @@ describe("readFile", () => {
         )
         assert.strictEqual(result, "# virtual-fs\nVirtual File System\n")
     })
+    it("throws if doesn't exist", async () => {
+        let hasThrown = false;
+        try {
+            await vfs.readFile(
+                "https://raw.githubusercontent.com/Azure/this-repo-doesntexist/exist"
+            )
+        } catch {
+            hasThrown = true
+        }
+        assert.isTrue(hasThrown)
+    })
 })
 
 describe("pathResolve", () => {
@@ -50,6 +61,19 @@ describe("exists", () => {
     })
 })
 
+describe("doesn't exist", () => {
+    it("local", async () => {
+        const result = await vfs.exists("thisprobablydoesntexist.ts")
+        assert.isFalse(result)
+    })
+    it("https", async () => {
+        const result = await vfs.exists(
+            "https://raw.githubusercontent.com/Azure/this-repo-doesntexist/exist"
+        )
+        assert.isFalse(result)
+    })
+})
+
 describe("pathDirName", () => {
     it("local", () => {
         const result = vfs.pathDirName("folder/index.d.ts")
@@ -65,12 +89,7 @@ describe("pathDirName", () => {
         )
     })
     it("domain name", () => {
-        const result = vfs.pathDirName(
-            "https://raw.githubusercontent.com"
-        )
-        assert.strictEqual(
-            result,
-            "https://raw.githubusercontent.com"
-        )
+        const result = vfs.pathDirName("https://raw.githubusercontent.com")
+        assert.strictEqual(result, "https://raw.githubusercontent.com")
     })
 })
