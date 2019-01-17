@@ -13,7 +13,7 @@ const protocolSeparator = "://"
 
 const toUrlString = (url: Url) => url.protocol + protocolSeparator + url.path
 
-const urlParse = (dir: string): Url | undefined => {
+export const urlParse = (dir: string): Url | undefined => {
   const split = dir.split(protocolSeparator)
   return split.length === 2
     ? {
