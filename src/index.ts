@@ -67,7 +67,7 @@ export const pathJoin = (dir: string, value: string): string => {
   return url !== undefined
     ? toUrlString({
       protocol: url.protocol,
-      path: it.join(it.concat(url.path.split("/"), [value]), "/")
+      path: url.path.split("/").concat([value]).join("/")
     })
     : path.join(dir, value)
 }
