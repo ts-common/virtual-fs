@@ -1,25 +1,29 @@
 {
   "name": "@ts-common/virtual-fs",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Virtual File System",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "tsc": "tsc",
-    "test": "tsc && nyc mocha -t 10000",
+    "test": "tsc && nyc mocha ./dist/test/test.js -t 10000",
     "prepack": "npm install && tsc"
   },
   "nyc": {
     "reporter": [
       "lcov",
       "text"
+    ],
+    "exclude": [
+      "dist/test/test.js"
     ]
   },
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
-    "index.d.ts",
-    "index.d.ts.map",
-    "index.js.map",
-    "index.ts"
+    "dist/index.d.ts",
+    "dist/index.d.ts.map",
+    "dist/index.js.map",
+    "dist/index.ts",
+    "src/index.ts"
   ],
   "repository": {
     "type": "git",
@@ -38,18 +42,17 @@
   "homepage": "https://github.com/ts-common/virtual-fs#readme",
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^5.2.6",
     "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "typescript": "^3.2.2"
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
+    "typescript": "^3.4.1"
   },
   "dependencies": {
-    "@ts-common/fs": "^0.0.2",
-    "@ts-common/https": "^0.0.2",
-    "@ts-common/iterator": "^0.1.2",
-    "@types/async-retry": "^1.2.1",
-    "@types/node-fetch": "^2.1.4",
+    "@ts-common/fs": "^0.2.0",
+    "@ts-common/iterator": "^0.3.0",
+    "@types/async-retry": "^1.2.3",
+    "@types/node-fetch": "^2.3.0",
     "async-retry": "^1.2.3",
     "node-fetch": "^2.3.0"
   }

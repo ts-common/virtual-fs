@@ -4,7 +4,7 @@ import * as path from "path"
 
 describe("readFile", () => {
     it("local", async () => {
-        const result = vfs.readFile("index.ts")
+        const result = vfs.readFile("src/index.ts")
         assert.notStrictEqual(result, undefined)
     })
     it("https", async () => {
@@ -50,7 +50,7 @@ describe("pathJoin", () => {
 
 describe("exists", () => {
     it("local", async () => {
-        const result = await vfs.exists("index.ts")
+        const result = await vfs.exists("src/index.ts")
         assert.isTrue(result)
     })
     it("https", async () => {
