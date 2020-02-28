@@ -75,7 +75,8 @@ export const pathJoin = (dir: string, value: string): string => {
 export const exists = async (dir: string): Promise<boolean> => {
   if (urlParse(dir) !== undefined) {
     let retries = 0
-    while (retries++ < 3) {
+    const retryTimes = 3
+    while (retries++ < retryTimes) {
       try {
         const { status } = await fetch(dir, {
           method: "HEAD",
@@ -84,11 +85,11 @@ export const exists = async (dir: string): Promise<boolean> => {
         if (status === 200) {
           return true
         } 
-        if (retries === 3) {
+        if (retries === retryTimes) {
           break
         }
       } catch (e) {
-        if (retries === 3) {
+        if (retries === retryTimes) {
           throw new Error(e.message)
         }
       }
