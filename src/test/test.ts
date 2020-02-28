@@ -49,6 +49,15 @@ describe("pathJoin", () => {
 })
 
 describe("exists", () => {
+    it("timeout", async () => {
+        try {
+            await vfs.exists(
+                "http://localhost:5050/semantic/result?validationId=t8d78dd548c40a8387136fadf94215b3f59d1a00"
+            )
+        } catch(error) {
+            assert.isNotNull(error)
+        }
+    })
     it("local", async () => {
         const result = await vfs.exists("src/index.ts")
         assert.isTrue(result)

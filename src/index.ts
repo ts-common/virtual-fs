@@ -74,27 +74,26 @@ export const pathJoin = (dir: string, value: string): string => {
 
 export const exists = async (dir: string): Promise<boolean> => {
   if (urlParse(dir) !== undefined) {
-    try {
-      return await retry(
-        async (): Promise<boolean> => {
-          const { status } = await fetch(dir)
-
-          if (status !== 200) {
-            const msg = `StatusCode "${status}" for "${dir}"`
-
-            throw new Error(msg)
-          }
-
+    let retries = 0
+    while (retries++ < 3) {
+      try {
+        const { status } = await fetch(dir, {
+          method: "HEAD",
+          timeout: 60 * 1000
+        })
+        if (status === 200) {
           return true
-        },
-        {
-          retries: 3,
-          factor: 1
+        } 
+        if (retries === 3) {
+          break
         }
-      )
-    } catch (e) {
-      return false
+      } catch (e) {
+        if (retries === 3) {
+          throw new Error(e.message)
+        }
+      }
     }
+    return false
   } else {
     return fsp.exists(dir)
   }
