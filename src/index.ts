@@ -72,29 +72,38 @@ export const pathJoin = (dir: string, value: string): string => {
     : path.join(dir, value)
 }
 
+const IsStatusCodeRetryable = (statusCode: number): boolean => {
+  if(statusCode >= 500 || statusCode === 408 || statusCode === 407) {
+    return true
+  }
+  return false
+}
+
 export const exists = async (dir: string): Promise<boolean> => {
   if (urlParse(dir) !== undefined) {
-    try {
-      return await retry(
-        async (): Promise<boolean> => {
-          const { status } = await fetch(dir)
-
-          if (status !== 200) {
-            const msg = `StatusCode "${status}" for "${dir}"`
-
-            throw new Error(msg)
-          }
-
+    let retries = 0
+    const retryTimes = 3
+    const retryIntervals = [1000, 3000, 7000]
+    while (retries < retryTimes) {
+      try {
+        const { status } = await fetch(dir, {
+          method: "HEAD",
+          timeout: 60 * 1000
+        })
+        if (status === 200) {
           return true
-        },
-        {
-          retries: 3,
-          factor: 1
+        } else if (!IsStatusCodeRetryable(status) || retries === retryTimes) {
+          break
         }
-      )
-    } catch (e) {
-      return false
+        await new Promise(r => setTimeout(r, retryIntervals[retries++]))
+      } catch (e) {
+        if (retries === retryTimes) {
+          throw new Error(e.message)
+        }
+        await new Promise(r => setTimeout(r, retryIntervals[retries++]))
+      }
     }
+    return false
   } else {
     return fsp.exists(dir)
   }
